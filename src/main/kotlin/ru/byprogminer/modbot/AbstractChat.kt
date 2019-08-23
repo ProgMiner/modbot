@@ -49,8 +49,7 @@ abstract class AbstractChat<U: User>: Chat<U> {
                 return
             }
 
-            cronFutures[plugin]?.takeIf { !it.isCancelled }
-                ?.also { it.cancel(false) }
+            cronFutures[plugin]?.takeIf { !it.isCancelled }?.also { it.cancel(false) }
 
             _plugins.remove(plugin)
             return@synchronized
