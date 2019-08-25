@@ -1,6 +1,6 @@
 package ru.byprogminer.modbot
 
-import ru.byprogminer.modbot.attachment.Attachment
+import ru.byprogminer.modbot.message.Attachment
 import java.time.ZonedDateTime
 
 interface Message {

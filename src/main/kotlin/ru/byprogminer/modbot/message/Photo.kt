@@ -1,4 +1,4 @@
-package ru.byprogminer.modbot.attachment
+package ru.byprogminer.modbot.message
 
 interface Photo: Attachment {
 
