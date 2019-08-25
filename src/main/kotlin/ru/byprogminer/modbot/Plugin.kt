@@ -1,15 +1,11 @@
 package ru.byprogminer.modbot
 
-import ru.byprogminer.modbot.command.Command
-import ru.byprogminer.modbot.command.CommandParser
-import java.time.Duration
 import java.time.ZonedDateTime
 
 interface Plugin {
 
-    val cronPeriod: Duration?
-    val commands: Map<String, CommandParser>
+    fun init(eventBus: EventBus, chat: Chat) {}
+    fun final(eventBus: EventBus, chat: Chat) {}
 
-    fun cron(time: ZonedDateTime, chat: Chat<*>)
-    fun command(command: Command, chat: Chat<*>)
+    fun cron(eventBus: EventBus, time: ZonedDateTime, id: Any?) {}
 }
