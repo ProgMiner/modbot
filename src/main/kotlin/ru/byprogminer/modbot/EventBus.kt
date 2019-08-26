@@ -5,19 +5,21 @@ import java.time.Duration
 
 interface EventBus {
 
+    @MustBeDocumented
+    @Target(AnnotationTarget.FUNCTION)
+    @Retention(AnnotationRetention.RUNTIME)
     annotation class Handler
 
-    val parsers: Map<Plugin, Map<Class<*>, Parser<*>>>
+    val excludedFeatures: Map<Chat, MutableMap<Plugin, MutableSet<Class<out Event>>>>
 
-    val plugins: Map<Chat, Set<Plugin>>
-    val excludedFeatures: Map<Chat, Map<Plugin, Set<Event>>>
-
-    fun fireEvent(event: Event)
+    fun<E: Event> fireEvent(event: E)
     fun scheduleCron(plugin: Plugin, duration: Duration, id: Any? = null)
 
     fun registerPlugin(chat: Chat, plugin: Plugin)
-    fun unregisterPlugin(chat: Chat, plugin: Plugin)
+    fun unregisterPlugin(chat: Chat, plugin: Plugin): Boolean
+    fun getRegisteredPlugins(chat: Chat): Set<Plugin>?
 
-    fun registerParser(plugin: Plugin, parser: Parser<*>)
-    fun unregisterParser(plugin: Plugin, parser: Parser<*>)
+    fun<I: Event> registerParser(parser: Parser<I>)
+    fun<I: Event> unregisterParser(parser: Parser<I>): Boolean
+    fun getRegisteredParsers(): Set<Parser<*>>
 }

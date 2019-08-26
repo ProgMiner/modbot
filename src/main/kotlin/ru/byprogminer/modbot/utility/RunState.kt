@@ -2,7 +2,7 @@ package ru.byprogminer.modbot.utility
 
 import java.util.concurrent.atomic.AtomicReference
 
-class RunState {
+internal class RunState {
 
     private enum class State {
 
