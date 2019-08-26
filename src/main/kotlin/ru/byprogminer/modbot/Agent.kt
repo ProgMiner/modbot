@@ -10,5 +10,5 @@ interface Agent {
     fun stop()
 
     fun kick(chat: Chat, user: User)
-    fun sendMessage(chat: Chat, message: List<Any>)
+    fun sendMessage(chat: Chat, message: List<Any?>)
 }
