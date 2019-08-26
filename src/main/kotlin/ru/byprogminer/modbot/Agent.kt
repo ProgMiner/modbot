@@ -1,5 +1,7 @@
 package ru.byprogminer.modbot
 
+import ru.byprogminer.modbot.message.Attachment
+
 interface Agent {
 
     val id: Long
@@ -10,5 +12,7 @@ interface Agent {
     fun stop()
 
     fun kick(chat: Chat, user: User)
-    fun sendMessage(chat: Chat, message: List<Any?>, attachments: List<Any>)
+    fun sendMessage(chat: Chat, message: List<Any?>, attachments: List<Attachment>)
+
+    fun handleAttachment(): AttachmentHandler
 }
