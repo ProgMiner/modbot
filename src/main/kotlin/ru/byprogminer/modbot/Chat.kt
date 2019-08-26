@@ -9,5 +9,4 @@ interface Chat {
     val agent: Agent
 
     val title: String
-    val owner: User
 }
