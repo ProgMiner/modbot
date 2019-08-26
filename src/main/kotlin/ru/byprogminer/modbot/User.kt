@@ -1,5 +1,8 @@
 package ru.byprogminer.modbot
 
+/**
+ * User impl have to has equals and hashCode impls based on id field
+ */
 interface User {
 
     val id: Long

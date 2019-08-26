@@ -7,6 +7,10 @@ import java.util.stream.Collectors
 
 abstract class AbstractAgent: Agent {
 
+    abstract val attachmentUploader: AttachmentUploader
+    private val chatCache = WeakHashMap<Long, Chat>()
+    private val userCache = WeakHashMap<Long, User>()
+
     private val runState = RunState()
 
     override val isStarted: Boolean
@@ -30,6 +34,14 @@ abstract class AbstractAgent: Agent {
         is User -> mention(element)
         else -> Objects.toString(element)
     }
+
+    override fun uploadAttachment() = attachmentUploader
+
+    override fun getChat(id: Long): Chat = chatCache.computeIfAbsent(id, this::doGetChat)
+    override fun getUser(id: Long): User = userCache.computeIfAbsent(id, this::doGetUser)
+
+    protected abstract fun doGetChat(id: Long): Chat
+    protected abstract fun doGetUser(id: Long): User
 
     protected open fun onStart() {}
     protected open fun onStop() {}

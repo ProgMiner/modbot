@@ -4,7 +4,7 @@ import ru.byprogminer.modbot.message.Attachment
 import java.awt.image.RenderedImage
 import java.net.URI
 
-interface AttachmentHandler {
+interface AttachmentUploader {
 
     fun photo(image: RenderedImage): Attachment
     fun video(uri: URI): Attachment
