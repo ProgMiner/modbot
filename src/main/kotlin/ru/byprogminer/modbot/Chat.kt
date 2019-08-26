@@ -6,5 +6,5 @@ interface Chat {
     val agent: Agent
 
     val title: String
-    val ownerId: Long
+    val owner: User
 }

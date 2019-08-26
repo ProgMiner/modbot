@@ -6,7 +6,7 @@ import java.time.ZonedDateTime
 interface Message {
 
     val chat: Chat
-    val userId: Long
+    val user: User
 
     val id: Long
     val date: ZonedDateTime
@@ -17,5 +17,5 @@ interface Message {
     val reply: Message?
     val forwarded: List<Message>
 
-    val allMentionedUserIds: List<Long>
+    val allMentionedUsers: List<User>
 }

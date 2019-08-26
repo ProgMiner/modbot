@@ -1,6 +1,8 @@
 package ru.byprogminer.modbot.event
 
+import ru.byprogminer.modbot.User
+
 interface UserEvent: Event {
 
-    val userId: Long
+    val user: User
 }
