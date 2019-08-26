@@ -14,7 +14,7 @@ import java.util.stream.IntStream
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-abstract class AbstractEventBus: EventBus {
+abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
 
     private val parsers = mutableMapOf<Class<out Event>, MutableSet<Parser<*>>>()
     private val parsersLock = ReentrantReadWriteLock()
@@ -29,8 +29,8 @@ abstract class AbstractEventBus: EventBus {
     override val excludedFeatures: Map<Chat, MutableMap<Plugin, MutableSet<Class<out Event>>>>
             by lazy { Collections.unmodifiableMap(_excludedFeatures) }
 
-    private val scheduleExecutor = Executors.newSingleThreadScheduledExecutor(CustomThreadFactory.daemon())
-    private val eventExecutor = Executors.newSingleThreadExecutor(CustomThreadFactory.daemon())
+    private val scheduleExecutor = Executors.newScheduledThreadPool(scheduleThreads, CustomThreadFactory.daemon())
+    private val eventExecutor = Executors.newCachedThreadPool(CustomThreadFactory.daemon())
 
     override fun<E: Event> fireEvent(event: E) {
         pluginsLock.read { plugins[event.chat]?.ifEmpty { null } } ?: return // If the chat isn't used any plugin - return
