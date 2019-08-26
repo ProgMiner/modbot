@@ -10,5 +10,5 @@ interface AttachmentHandler {
     fun video(uri: URI): Attachment
     fun audio(uri: URI): Attachment
     fun document(uri: URI): Attachment
-    fun sticker(uri: URI): Attachment
+    fun sticker(id: Long): Attachment
 }
