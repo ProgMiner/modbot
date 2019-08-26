@@ -3,7 +3,7 @@ package ru.byprogminer.modbot.utility
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
 
-internal class CustomThreadFactory(
+class CustomThreadFactory(
     private val threadFactory: ThreadFactory,
     private val block: Thread.() -> Unit
 ): ThreadFactory {
