@@ -11,8 +11,9 @@ interface Agent {
     fun start()
     fun stop()
 
-    fun kick(chat: Chat, user: User)
+    fun kick(chat: Chat, userId: Long)
     fun sendMessage(chat: Chat, message: List<Any?>, attachments: List<Attachment>)
 
     fun handleAttachment(): AttachmentHandler
+    fun getUser(id: Long): User
 }
