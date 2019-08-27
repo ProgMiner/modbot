@@ -25,9 +25,8 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
     private val handlers = mutableMapOf<Class<out Event>, MutableMap<Plugin, MutableSet<(Event) -> Unit>>>()
     private val handlersLock = ReentrantReadWriteLock()
 
-    private val _excludedFeatures = mutableMapOf<Chat, MutableMap<Plugin, MutableSet<Class<out Event>>>>()
-    override val excludedFeatures: Map<Chat, MutableMap<Plugin, MutableSet<Class<out Event>>>>
-            by lazy { Collections.unmodifiableMap(_excludedFeatures) }
+    private val excludedFeatures = mutableMapOf<Chat, MutableMap<Plugin, MutableSet<Class<out Event>>>>()
+    private val excludedFeaturesLock = ReentrantReadWriteLock()
 
     private val scheduleExecutor = Executors.newScheduledThreadPool(scheduleThreads, CustomThreadFactory.daemon())
     private val eventExecutor = Executors.newCachedThreadPool(CustomThreadFactory.daemon())
@@ -46,8 +45,8 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
 
         // Invoke plugins
         val allowedPlugins = pluginsLock.read { plugins[event.chat]?.parallelStream()
-            ?.filter { _excludedFeatures[event.chat]?.get(it)?.contains(event::class.java)?.run { !this } ?: true }
-            ?.collect(Collectors.toSet()) ?: emptySet<Plugin>() } // Dumb Kotlin >.<" [3]
+            ?.filter { excludedFeaturesLock.read { excludedFeatures[event.chat]?.get(it)?.contains(event::class.java) }
+                ?.run { !this } ?: true }?.collect(Collectors.toSet()) } ?: emptySet<Plugin>()
 
         handlersLock.read {
             handlers[event::class.java]?.entries?.parallelStream()
@@ -70,7 +69,7 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
 
             plugin.init(this, chat)
             Arrays.stream(plugin::class.java.declaredMethods).parallel()
-                .map(convertHandler(plugin)).filter { it != null }.map { it!! } // Dumb Kotlin >.<"
+                .map(convertHandler(plugin)).filter { it != null }.map { it!! } // Dumb Kotlin >_<"
                 .forEach { (clazz, handler) -> handlersLock.write { handlers.computeIfAbsent(clazz) { mutableMapOf() }
                     .computeIfAbsent(plugin) { mutableSetOf() }.add(handler) } }
 
@@ -108,7 +107,7 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
             return null
         }
 
-        // Dumb Kotlin >.<" [2]
+        // Dumb Kotlin >_<" [2]
         val handler: (Event) -> Unit = when (eventBusParameter) {
             0 -> { event: Event -> method.isAccessible = true; method.invoke(plugin, this, event) }
             1 -> { event: Event -> method.isAccessible = true; method.invoke(plugin, event, this) }
@@ -143,4 +142,14 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
 
     override fun getRegisteredParsers(): Set<Parser<*>> = parsersLock
         .read { parsers.values.parallelStream().flatMap { it.parallelStream() } }.collect(Collectors.toSet())
+
+    override fun excludePluginFeature(chat: Chat, plugin: Plugin, feature: Class<out Event>) = excludedFeaturesLock
+        .write { excludedFeatures.computeIfAbsent(chat) { mutableMapOf() }
+            .computeIfAbsent(plugin) { mutableSetOf() }.add(feature) }
+
+    override fun includePluginFeature(chat: Chat, plugin: Plugin, feature: Class<out Event>) = excludedFeaturesLock
+        .write { excludedFeatures[chat]?.get(plugin)?.remove(feature) } ?: false
+
+    override fun getExcludedFeatures(chat: Chat, plugin: Plugin): Set<Class<out Event>> = excludedFeaturesLock
+        .read { excludedFeatures[chat]?.get(plugin)?.let(Collections::unmodifiableSet) } ?: emptySet()
 }
