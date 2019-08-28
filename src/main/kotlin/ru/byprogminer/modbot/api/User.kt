@@ -2,7 +2,7 @@ package ru.byprogminer.modbot.api
 
 import ru.byprogminer.modbot.Agent
 import java.time.Duration
-import java.time.LocalDate
+import java.time.MonthDay
 
 /**
  * User impl have to has equals and hashCode impls based on id field
@@ -21,8 +21,9 @@ interface User {
     val fullName: String
     val names: List<String>
 
-    val birthday: LocalDate?
     val photo: Set<PhotoVariant>?
+    val birthday: MonthDay?
+    val birthdayYear: Int?
 
     val isOnline: Boolean
     val lastSeen: Duration?
