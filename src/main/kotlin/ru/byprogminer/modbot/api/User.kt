@@ -35,7 +35,7 @@ interface User {
     /**
      * Text that can be used in message text for link to this user
      */
-    val link: String?
+    fun link(caption: String?): String?
 
     /**
      * User objects must be able to use as a key
