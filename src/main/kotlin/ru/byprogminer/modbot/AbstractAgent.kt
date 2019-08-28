@@ -3,9 +3,9 @@ package ru.byprogminer.modbot
 import ru.byprogminer.modbot.api.AttachmentUploader
 import ru.byprogminer.modbot.utility.RunState
 
-abstract class AbstractAgent: Agent {
+abstract class AbstractAgent<out AU: AttachmentUploader>: Agent {
 
-    abstract val attachmentUploader: AttachmentUploader
+    abstract val attachmentUploader: AU
 
     private val runState = RunState()
 
@@ -19,7 +19,7 @@ abstract class AbstractAgent: Agent {
 
     override fun stop() = runState.stop()
 
-    override fun uploadAttachment() = attachmentUploader
+    override fun uploadAttachment(): AU = attachmentUploader
 
     protected open fun onStart() {}
     protected open fun onStop() {}
