@@ -1,7 +1,8 @@
 package ru.byprogminer.modbot.api
 
 import ru.byprogminer.modbot.Agent
-import java.time.ZonedDateTime
+import java.time.Duration
+import java.time.LocalDate
 
 /**
  * User impl have to has equals and hashCode impls based on id field
@@ -20,10 +21,11 @@ interface User {
     val fullName: String
     val names: List<String>
 
-    val birthday: ZonedDateTime?
+    val birthday: LocalDate?
     val photo: Set<PhotoVariant>?
 
     val isOnline: Boolean
+    val lastSeen: Duration?
     /**
      * Is this user able to communication, or it is banned/deleted/etc.
      */
