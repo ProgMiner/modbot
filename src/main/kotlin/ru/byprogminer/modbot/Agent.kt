@@ -1,20 +1,16 @@
 package ru.byprogminer.modbot
 
-import ru.byprogminer.modbot.message.Attachment
+import ru.byprogminer.modbot.api.SelfUser
+import ru.byprogminer.modbot.api.AttachmentUploader
 
 interface Agent {
 
-    val id: Long
+    val user: SelfUser
 
     val isStarted: Boolean
 
     fun start()
     fun stop()
 
-    fun kick(chat: Chat, user: User)
-    fun sendMessage(chat: Chat, message: List<Any?>, attachments: List<Attachment>)
-
     fun uploadAttachment(): AttachmentUploader
-    fun getChat(id: Long): Chat
-    fun getUser(id: Long): User
 }

@@ -1,6 +1,6 @@
-package ru.byprogminer.modbot
+package ru.byprogminer.modbot.api
 
-import ru.byprogminer.modbot.message.Attachment
+import ru.byprogminer.modbot.api.message.Attachment
 import java.awt.image.RenderedImage
 import java.net.URI
 

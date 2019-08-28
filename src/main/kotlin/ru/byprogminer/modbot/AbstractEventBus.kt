@@ -1,5 +1,6 @@
 package ru.byprogminer.modbot
 
+import ru.byprogminer.modbot.api.Chat
 import ru.byprogminer.modbot.event.Event
 import ru.byprogminer.modbot.utility.CustomThreadFactory
 import java.lang.reflect.Method
@@ -151,5 +152,5 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
         .write { excludedFeatures[chat]?.get(plugin)?.remove(feature) } ?: false
 
     override fun getExcludedFeatures(chat: Chat, plugin: Plugin): Set<Class<out Event>> = excludedFeaturesLock
-        .read { excludedFeatures[chat]?.get(plugin)?.let(Collections::unmodifiableSet) } ?: emptySet()
+        .read { excludedFeatures[chat]?.get(plugin)?.let { Collections.unmodifiableSet(it) } } ?: emptySet()
 }

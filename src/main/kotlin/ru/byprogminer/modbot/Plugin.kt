@@ -1,5 +1,6 @@
 package ru.byprogminer.modbot
 
+import ru.byprogminer.modbot.api.Chat
 import java.time.ZonedDateTime
 
 interface Plugin {

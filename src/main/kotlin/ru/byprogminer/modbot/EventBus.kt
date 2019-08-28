@@ -1,5 +1,6 @@
 package ru.byprogminer.modbot
 
+import ru.byprogminer.modbot.api.Chat
 import ru.byprogminer.modbot.event.Event
 import ru.byprogminer.modbot.storage.GlobalStorage
 import java.time.Duration

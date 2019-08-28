@@ -1,4 +1,4 @@
-package ru.byprogminer.modbot.message
+package ru.byprogminer.modbot.api.message
 
 interface Document: Attachment {
 

@@ -1,6 +1,6 @@
 package ru.byprogminer.modbot.event
 
-import ru.byprogminer.modbot.Message
+import ru.byprogminer.modbot.api.Message
 
 interface MessageEvent: UserEvent {
 

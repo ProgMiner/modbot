@@ -1,6 +1,6 @@
 package ru.byprogminer.modbot.event
 
-import ru.byprogminer.modbot.User
+import ru.byprogminer.modbot.api.User
 
 interface UserEvent: Event {
 

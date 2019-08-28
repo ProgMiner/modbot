@@ -1,7 +1,7 @@
 package ru.byprogminer.modbot.storage
 
-import ru.byprogminer.modbot.Chat
-import ru.byprogminer.modbot.User
+import ru.byprogminer.modbot.api.Chat
+import ru.byprogminer.modbot.api.User
 
 interface PluginAgentStorage: Storage {
 
