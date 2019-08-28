@@ -14,5 +14,5 @@ interface RemoteMessage: Message {
     fun edit(new: Message)
     fun remove()
 
-    fun toNewMessage(): NewMessage
+    fun newMessage(): NewMessage
 }
