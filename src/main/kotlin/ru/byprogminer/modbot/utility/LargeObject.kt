@@ -11,10 +11,10 @@ interface LargeObject {
     operator fun get(key: String): LargeObject? = null
     operator fun get(index: Int): LargeObject? = null
 
-    fun asInt(): Int? = value as? Int
-    fun asLong(): Long? = value as? Long
-    fun asFloat(): Float? = value as? Float
-    fun asDouble(): Double? = value as? Double
-    fun asBoolean(): Boolean? = value as? Boolean
-    fun asString(): String? = value as? String
+    fun asInt(): Int? = null
+    fun asLong(): Long? = null
+    fun asFloat(): Float? = null
+    fun asDouble(): Double? = null
+    fun asBoolean(): Boolean? = null
+    fun asString(): String = toString()
 }
