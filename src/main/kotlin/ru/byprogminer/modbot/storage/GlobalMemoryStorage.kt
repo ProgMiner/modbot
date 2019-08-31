@@ -37,8 +37,7 @@ open class GlobalMemoryStorage: MemoryStorage(), GlobalStorage {
         .computeIfAbsent(plugin) { mutableMapOf() }.computeIfAbsent(agent) { mutableMapOf() }
         .computeIfAbsent(chat) { mutableMapOf() }.computeIfAbsent(user) { MemoryStorage() }
 
-    private fun accessor(
-        plugin: Plugin? = null, agent: Agent? = null, chat: Chat? = null, user: User? = null
-    ): Accessor = accessors.computeIfAbsent(plugin) { WeakHashMap() }.computeIfAbsent(agent) { WeakHashMap() }
-        .computeIfAbsent(chat) { WeakHashMap() }.computeIfAbsent(user) { Accessor(plugin, agent, chat, user) }
+    private fun accessor(plugin: Plugin? = null, agent: Agent? = null, chat: Chat? = null, user: User? = null) =
+        accessors.computeIfAbsent(plugin) { WeakHashMap() }.computeIfAbsent(agent) { WeakHashMap() }
+            .computeIfAbsent(chat) { WeakHashMap() }.computeIfAbsent(user) { Accessor(plugin, agent, chat, user) }
 }
