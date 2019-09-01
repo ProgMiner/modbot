@@ -11,8 +11,8 @@ interface RemoteMessage: Message {
 
     val allMentionedUsers: List<User>
 
-    fun edit(new: Message)
+    fun edit(new: NewMessage)
     fun remove()
 
-    fun newMessage(): NewMessage
+    fun cloneToNew(): NewMessage
 }

@@ -7,6 +7,6 @@ interface Message {
     val text: String?
     val attachments: List<Attachment>
 
-    val reply: Message?
-    val forwarded: List<Message>
+    val reply: RemoteMessage?
+    val forwarded: List<RemoteMessage>
 }
