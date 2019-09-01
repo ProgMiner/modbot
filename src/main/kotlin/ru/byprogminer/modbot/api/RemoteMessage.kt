@@ -12,7 +12,7 @@ interface RemoteMessage: Message {
     val allMentionedUsers: List<User>
 
     fun edit(new: NewMessage)
-    fun remove()
+    fun remove(forAll: Boolean = true)
 
     fun cloneToNew(): NewMessage
 }
