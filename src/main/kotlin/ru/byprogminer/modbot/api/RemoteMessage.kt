@@ -1,11 +1,17 @@
 package ru.byprogminer.modbot.api
 
+import ru.byprogminer.modbot.Agent
 import java.time.ZonedDateTime
 
 interface RemoteMessage: Message {
 
+    /**
+     * The "point of view" on this remote message
+     */
+    val agent: Agent
+
     val chat: Chat?
-    val user: User
+    val author: User
 
     val date: ZonedDateTime
 

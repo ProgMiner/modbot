@@ -33,7 +33,8 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
     private val eventExecutor = Executors.newCachedThreadPool(CustomThreadFactory.daemon())
 
     override fun<E: Event> fireEvent(event: E) {
-        pluginsLock.read { plugins[event.chat]?.ifEmpty { null } } ?: return // If the chat isn't used any plugin - return
+        pluginsLock.read { plugins[event.source]?.ifEmpty { null } }
+            ?: return // If the chat isn't used any plugin - return
 
         // Parse event
         eventExecutor.submit {
@@ -45,8 +46,8 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
         }
 
         // Invoke plugins
-        val allowedPlugins = pluginsLock.read { plugins[event.chat]?.parallelStream()
-            ?.filter { excludedFeaturesLock.read { excludedFeatures[event.chat]?.get(it)?.contains(event::class.java) }
+        val allowedPlugins = pluginsLock.read { plugins[event.source]?.parallelStream()
+            ?.filter { excludedFeaturesLock.read { excludedFeatures[event.source]?.get(it)?.contains(event::class.java) }
                 ?.run { !this } ?: true }?.collect(Collectors.toSet()) } ?: emptySet<Plugin>()
 
         handlersLock.read {
@@ -144,13 +145,14 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
     override fun getRegisteredParsers(): Set<Parser<*>> = parsersLock
         .read { parsers.values.parallelStream().flatMap { it.parallelStream() } }.collect(Collectors.toSet())
 
-    override fun excludePluginFeature(chat: Chat, plugin: Plugin, feature: Class<out Event>) = excludedFeaturesLock
-        .write { excludedFeatures.computeIfAbsent(chat) { mutableMapOf() }
+    override fun excludePluginFeature(chat: Chat, plugin: Plugin, feature: Class<out Event>) =
+        excludedFeaturesLock.write { excludedFeatures.computeIfAbsent(chat) { mutableMapOf() }
             .computeIfAbsent(plugin) { mutableSetOf() }.add(feature) }
 
-    override fun includePluginFeature(chat: Chat, plugin: Plugin, feature: Class<out Event>) = excludedFeaturesLock
-        .write { excludedFeatures[chat]?.get(plugin)?.remove(feature) } ?: false
+    override fun includePluginFeature(chat: Chat, plugin: Plugin, feature: Class<out Event>) =
+        excludedFeaturesLock.write { excludedFeatures[chat]?.get(plugin)?.remove(feature) } ?: false
 
-    override fun getExcludedFeatures(chat: Chat, plugin: Plugin): Set<Class<out Event>> = excludedFeaturesLock
-        .read { excludedFeatures[chat]?.get(plugin)?.let { Collections.unmodifiableSet(it) } } ?: emptySet()
+    override fun getExcludedFeatures(chat: Chat, plugin: Plugin): Set<Class<out Event>> =
+        excludedFeaturesLock.read { excludedFeatures[chat]?.get(plugin)
+            ?.let { Collections.unmodifiableSet(it) } } ?: emptySet()
 }

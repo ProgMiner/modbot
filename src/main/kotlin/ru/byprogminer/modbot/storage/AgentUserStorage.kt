@@ -5,6 +5,6 @@ import ru.byprogminer.modbot.api.Chat
 
 interface AgentUserStorage: Storage {
 
-    fun forChat(chat: Chat): ChatUserStorage
-    fun forPlugin(plugin: Plugin): PluginAgentUserStorage
+    operator fun get(chat: Chat): AgentChatUserStorage
+    operator fun get(plugin: Plugin): PluginAgentUserStorage
 }

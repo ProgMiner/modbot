@@ -4,5 +4,5 @@ import ru.byprogminer.modbot.api.Chat
 
 interface Event {
 
-    val chat: Chat
+    val source: Chat
 }

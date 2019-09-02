@@ -1,7 +1,6 @@
 package ru.byprogminer.modbot
 
 import ru.byprogminer.modbot.utility.LargeObject
-import java.lang.Exception
 
 abstract class ApiException: Exception {
 

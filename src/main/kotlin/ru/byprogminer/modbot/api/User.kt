@@ -7,21 +7,21 @@ import java.time.MonthDay
 /**
  * User impl have to has equals and hashCode impls based on id field
  */
-interface User {
+interface User: Chat {
 
     /**
      * The "point of view" on this user
      */
-    val agent: Agent
+    override val agent: Agent
 
     /**
      * Short name, e.g. first name
      */
-    val name: String
+    override val name: String
     val fullName: String
     val names: List<String>
 
-    val photo: Set<PhotoVariant>?
+    override val photo: Set<PhotoVariant>?
     val birthday: MonthDay?
     val birthdayYear: Int?
 
