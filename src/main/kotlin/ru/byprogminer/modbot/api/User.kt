@@ -1,6 +1,6 @@
 package ru.byprogminer.modbot.api
 
-import ru.byprogminer.modbot.Agent
+import ru.byprogminer.modbot.Actor
 import java.time.Duration
 import java.time.MonthDay
 
@@ -12,7 +12,7 @@ interface User: Chat {
     /**
      * The "point of view" on this user
      */
-    override val agent: Agent
+    override val actor: Actor
 
     /**
      * Short name, e.g. first name

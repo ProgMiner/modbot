@@ -1,6 +1,6 @@
 package ru.byprogminer.modbot.api
 
-import ru.byprogminer.modbot.Agent
+import ru.byprogminer.modbot.Actor
 import java.time.ZonedDateTime
 
 interface RemoteMessage: Message {
@@ -8,7 +8,7 @@ interface RemoteMessage: Message {
     /**
      * The "point of view" on this remote message
      */
-    val agent: Agent
+    val actor: Actor
 
     val chat: Chat?
     val author: User

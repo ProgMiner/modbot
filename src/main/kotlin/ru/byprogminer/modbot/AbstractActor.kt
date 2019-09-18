@@ -3,7 +3,7 @@ package ru.byprogminer.modbot
 import ru.byprogminer.modbot.api.AttachmentUploader
 import ru.byprogminer.modbot.utility.RunState
 
-abstract class AbstractAgent<out AU: AttachmentUploader>: Agent {
+abstract class AbstractActor<out AU: AttachmentUploader>: Actor {
 
     abstract val attachmentUploader: AU
 

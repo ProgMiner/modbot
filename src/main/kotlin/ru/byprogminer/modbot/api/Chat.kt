@@ -1,13 +1,13 @@
 package ru.byprogminer.modbot.api
 
-import ru.byprogminer.modbot.Agent
+import ru.byprogminer.modbot.Actor
 
 interface Chat {
 
     /**
      * The "point of view" on this chat
      */
-    val agent: Agent
+    val actor: Actor
 
     val name: String
     val photo: Set<PhotoVariant>?

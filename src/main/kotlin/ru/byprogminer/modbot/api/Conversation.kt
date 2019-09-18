@@ -1,13 +1,13 @@
 package ru.byprogminer.modbot.api
 
-import ru.byprogminer.modbot.Agent
+import ru.byprogminer.modbot.Actor
 
 interface Conversation: Chat {
 
     /**
      * The "point of view" on this conversation
      */
-    override val agent: Agent
+    override val actor: Actor
 
     override var name: String
     var pinnedMessage: Message?

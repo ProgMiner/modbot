@@ -1,8 +1,8 @@
 package ru.byprogminer.modbot.storage
 
-import ru.byprogminer.modbot.Agent
+import ru.byprogminer.modbot.Actor
 
 interface PluginChatUserStorage: Storage {
 
-    operator fun get(agent: Agent): PluginAgentChatUserStorage
+    operator fun get(actor: Actor): PluginActorChatUserStorage
 }
