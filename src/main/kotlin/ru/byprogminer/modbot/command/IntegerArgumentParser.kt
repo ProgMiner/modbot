@@ -1,6 +1,6 @@
 package ru.byprogminer.modbot.command
 
-class IntegerArgumentParser: ArgumentParser<Int> {
+open class IntegerArgumentParser: ArgumentParser<Int> {
 
     override fun parse(commandLine: String): Pair<String, Int> {
         var lastValue: Int? = null

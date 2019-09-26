@@ -1,6 +1,6 @@
 package ru.byprogminer.modbot.command
 
-class NumericArgumentParser: ArgumentParser<Double> {
+open class NumericArgumentParser: ArgumentParser<Double> {
 
     override fun parse(commandLine: String): Pair<String, Double> {
         var lastValue: Double? = null

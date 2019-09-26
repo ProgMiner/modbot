@@ -9,6 +9,13 @@ data class HolderLargeObject<out T: Any>(override val value: T): LargeObject {
     override fun asBoolean(): Boolean? = value as? Boolean ?: (value as? String)?.toBooleanOrNull()
     override fun asString(): String = value as? String ?: value.toString()
 
+    override fun iterator() = (value as? Iterable<*>)?.run(Iterable<*>::iterator)
+        ?.let { object : Iterator<LargeObject> {
+
+            override fun hasNext() = it.hasNext()
+            override fun next() = HolderLargeObject(it.next()!!)
+        } } ?: throw UnsupportedOperationException()
+
     private fun String.toBooleanOrNull() = when (this) {
         "false" -> false
         "true" -> true
