@@ -17,11 +17,11 @@ interface EventBus {
     fun<E: Event> fireEvent(event: E)
     fun scheduleCron(plugin: Plugin, duration: Duration, id: Any? = null)
 
-    fun registerPlugin(chat: Chat, plugin: Plugin)
+    fun registerPlugin(chat: Chat, plugin: Plugin): Boolean
     fun unregisterPlugin(chat: Chat, plugin: Plugin): Boolean
     fun getRegisteredPlugins(chat: Chat): Set<Plugin>?
 
-    fun<I: Event> registerParser(parser: Parser<I>)
+    fun<I: Event> registerParser(parser: Parser<I>): Boolean
     fun<I: Event> unregisterParser(parser: Parser<I>): Boolean
     fun getRegisteredParsers(): Set<Parser<*>>
 

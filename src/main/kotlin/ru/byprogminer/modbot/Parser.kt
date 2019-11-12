@@ -4,8 +4,7 @@ import ru.byprogminer.modbot.event.Event
 
 interface Parser<I: Event> {
 
-    val input: Class<out Event>
-    val output: Set<Class<out Event>>
+    val input: Class<I>
 
     fun parse(input: I): Set<Event>
 }
