@@ -1,7 +1,6 @@
 package ru.byprogminer.modbot
 
 import ru.byprogminer.modbot.api.Chat
-import ru.byprogminer.modbot.event.Event
 import ru.byprogminer.modbot.utility.CustomThreadFactory
 import java.lang.reflect.Method
 import java.time.Duration
@@ -51,10 +50,13 @@ abstract class AbstractEventBus(scheduleThreads: Int): EventBus {
                 ?.run { !this } ?: true }?.collect(Collectors.toSet()) } ?: emptySet<Plugin>()
 
         handlersLock.read {
-            handlers[event::class.java]?.entries?.parallelStream()
-                ?.filter { (plugin, _) -> allowedPlugins.contains(plugin) }
-                ?.flatMap { (_, handlers) -> handlers.parallelStream() }
-                ?.forEach { eventExecutor.submit { it(event) } }
+            handlers.entries.parallelStream()
+                .filter { (clazz, _) -> clazz.isInstance(event) }
+                .forEach { (_, handlers) -> handlers.entries.parallelStream()
+                    .filter { (plugin, _) -> allowedPlugins.contains(plugin) }
+                    .flatMap { (_, handlers) -> handlers.parallelStream() }
+                    .forEach { eventExecutor.submit { it(event) } }
+                }
         }
     }
 
